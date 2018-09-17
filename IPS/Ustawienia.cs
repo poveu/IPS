@@ -167,6 +167,8 @@ namespace IPS
 				
 			if (!databaseCorrect()) {
 				MessageBox.Show("W podanej bazie nie znaleziono odpowiednich danych.\nUpewnij się, że wybrano prawidłową bazę danych (Sello).");
+				Settings.Default.sql_database = "";
+				Settings.Default.Save();
 				return false;
 			}
 			
