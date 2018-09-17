@@ -302,7 +302,7 @@ namespace IPS
 			serwer = Settings.Default.sql_server;
 			baza = Settings.Default.sql_database;
 			uid = Settings.Default.sql_username;
-			upwd = Settings.Default.sql_password.DecryptString();
+			upwd = (Settings.Default.sql_password == "") ? Settings.Default.sql_password : Settings.Default.sql_password.DecryptString();
 			setAsSent = Settings.Default.setAsSent;
 			
 			en_user = Settings.Default.enadawca_user;

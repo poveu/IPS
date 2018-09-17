@@ -254,12 +254,12 @@ namespace IPS
 		
 		bool dataProvided()
 		{
-			return ((comboBox2.Text != "") && (comboBox2.Text != Program.INFO_WCZYTYWANIE) && (comboBox2.Text != Program.INFO_BRAK_SERWEROW) && (textBox1.Text != "") && (textBox5.Text != ""));
+			return ((comboBox2.Text != "") && (comboBox2.Text != Program.INFO_WCZYTYWANIE) && (comboBox2.Text != Program.INFO_BRAK_SERWEROW) && (textBox1.Text != ""));
 		}
 		
 		void walidujDaneSerwera()
 		{
-			if ((textBox5.Text != "") && (textBox1.Text != "") && (comboBox2.Text != Program.INFO_WCZYTYWANIE) && (comboBox2.Text != Program.INFO_BRAK_SERWEROW)) {
+			if ((textBox1.Text != "") && (comboBox2.Text != Program.INFO_WCZYTYWANIE) && (comboBox2.Text != Program.INFO_BRAK_SERWEROW)) {
 				comboBox1.Enabled = true;
 				comboBox1.Text = Program.INFO_LISTA_BAZ;
 			} else {

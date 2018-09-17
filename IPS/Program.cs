@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Configuration;
 using System.Security.Cryptography;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace IPS
 {
@@ -38,7 +39,10 @@ namespace IPS
 			bool result = false;
 			foreach (SettingsProperty currentProperty in Settings.Default.Properties) {
 				
-				if (currentProperty.Name != "enadawca_password" && currentProperty.Name != "enadawca_user") {
+				string[] notRequired = { "enadawca_password", "enadawca_user", "sql_password" };
+				
+				if (!notRequired.Contains(currentProperty.Name)) {
+
 					result |= (
 					    (currentProperty.Name.Trim() == "") ||
 					    (Settings.Default[currentProperty.Name].ToString().Trim() == "") ||
