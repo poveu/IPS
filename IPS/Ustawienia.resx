@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Uwaga, ta opcja NIE tworzy automatycznych wiadomości e-mail do klienta. Zaznacz ją tylko, jeśli nie używasz w Sello opcji automatycznego wysyłania wiadomości e-mail do klientów z informacją o wysyłce paczki</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Zaznacz powyższą opcję, jeśli dane przesyłek importujesz, korzystając z wbudowanej w E-Nadawcę funkcji importu danych kupującego z Allegro (a co za tym idzie, chcesz powiązać przesyłki po nicku kupującego)</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

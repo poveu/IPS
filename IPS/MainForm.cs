@@ -29,6 +29,7 @@ namespace IPS
 		const string LOKAL_NODE = "Lokal";
 		const string MIASTO_NODE = "Miejscowosc";
 		const string NR_PRZESYLKI_NODE = "NrNadania";
+		const string GUID_NODE = "MSIDPrzesylka";
 		const string NICK1_NODE = "Uwagi";
 		const string NICK2_NODE = "Tytulem1";
 		
@@ -44,6 +45,7 @@ namespace IPS
 		
 		string en_user;
 		string en_password;
+		int en_mode;
 		
 		public MainForm()
 		{
@@ -78,9 +80,18 @@ namespace IPS
 				String[] arr = new String[6];
 				ListViewItem itm;
 
-				arr[0] = getParsedNodeData(node, NAZWA_NODE);		
-				arr[1] = (getParsedNodeData(node, NICK2_NODE) == "" ?
+				arr[0] = getParsedNodeData(node, NAZWA_NODE);
+
+				switch (en_mode) {
+					case 1:
+						arr[1] = (getParsedNodeData(node, NICK2_NODE) == "" ?
 						          getParsedNodeData(node, NICK1_NODE, nickFormat: true) : getParsedNodeData(node, NICK2_NODE, nickFormat: true));
+						break;
+					case 2:
+						arr[1] = getParsedNodeData(node, GUID_NODE);
+						break;
+				}
+				
 				arr[2] = getParsedNodeData(node, ULICA_NODE);
 				arr[2] += getParsedNodeData(node, DOM_NODE, " ");
 				arr[2] += getParsedNodeData(node, LOKAL_NODE, "/");
@@ -307,7 +318,18 @@ namespace IPS
 			
 			en_user = Settings.Default.enadawca_user;
 			en_password = Settings.Default.enadawca_password.DecryptString();
+			en_mode = Settings.Default.enadawca_mode;
+			
+			switch (en_mode) {
+				case 1:
+					listView1.Columns[1].Text = "Nick klienta";
+					break;
+				case 2:
+					listView1.Columns[1].Text = "GUID przesyłki";
+					break;
+			}
 		}
+		
 		void MainFormVisibleChanged(object sender, EventArgs e)
 		{
 			if (this.Visible) {

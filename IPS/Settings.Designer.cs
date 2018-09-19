@@ -97,6 +97,18 @@ namespace IPS {
 		
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("")]
+		public int enadawca_mode {
+			get {
+				return ((int)(this["enadawca_mode"]));
+			}
+			set {
+				this["enadawca_mode"] = value;
+			}
+		}
+		
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
 		[global::System.Configuration.DefaultSettingValueAttribute("false")]
 		public bool setAsSent {
 			get {

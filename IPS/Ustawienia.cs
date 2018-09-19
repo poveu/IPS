@@ -131,6 +131,17 @@ namespace IPS
 				if (!string.IsNullOrEmpty(Settings.Default.enadawca_password)) {
 					textBox2.Text = Settings.Default.enadawca_password.DecryptString();
 				}
+				
+				if (Settings.Default.enadawca_mode > 0) {
+					switch (Settings.Default.enadawca_mode) {
+						case 1:
+							radioButton1.Checked = true;
+							break;
+						case 2:
+							radioButton2.Checked = true;
+							break;
+					}
+				}
 
 			} catch (Exception e) {
 				MessageBox.Show("Wystąpił błąd podczas wczytywania ustawień:\n" + e.Message + e.StackTrace);
@@ -152,6 +163,13 @@ namespace IPS
 				Settings.Default.setAsSent = checkBox1.Checked;
 				Settings.Default.enadawca_user = (textBox3.Text == "") ? "" : textBox3.Text.Trim();
 				Settings.Default.enadawca_password = (textBox2.Text == "") ? "" : textBox2.Text.Trim().EncryptString();
+				
+				if (radioButton1.Checked) {
+					Settings.Default.enadawca_mode = 1;
+				}
+				else if (radioButton2.Checked) {
+					Settings.Default.enadawca_mode = 2;
+				}
 
 				Settings.Default.Save();
 
