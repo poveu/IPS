@@ -79,7 +79,7 @@
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(425, 46);
 			this.button2.TabIndex = 1;
-			this.button2.Text = "Otwórz plik danych przesyłek";
+			this.button2.Text = "Otwórz plik danych przesyłek E-Nadawcy";
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.Button2Click);
 			// 
@@ -113,7 +113,7 @@
 			this.button4.Name = "button4";
 			this.button4.Size = new System.Drawing.Size(426, 46);
 			this.button4.TabIndex = 8;
-			this.button4.Text = "Wczytaj dane przesyłek z API E-Nadawcy";
+			this.button4.Text = "Pobierz dane przesyłek z API E-Nadawcy";
 			this.button4.UseVisualStyleBackColor = true;
 			this.button4.Click += new System.EventHandler(this.Button4Click);
 			// 
@@ -166,7 +166,7 @@
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(251, 26);
 			this.label2.TabIndex = 10;
-			this.label2.Text = "Wskaż datę, od jakiej mają zostać pobrane przesyłki z API E-Nadawcy";
+			this.label2.Text = "Wskaż datę, od jakiej mają zostać pobrane dane przesyłek z API E-Nadawcy";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// label3

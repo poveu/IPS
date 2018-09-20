@@ -313,11 +313,6 @@ namespace IPS
 				"Jeśli chcesz, by Sello wysyłało wiadomości, odznacz tą opcję i oznaczaj przesyłki jako wysłane ręcznie w Sello (ta aplikacja po prostu zapisze numery przesyłek w Sello).");
 		}
 		
-		
-		void Button2Click(object sender, EventArgs e)
-		{
-			
-		}
 		void UstawieniaFormClosed(object sender, FormClosedEventArgs e)
 		{
 			Application.Exit();
@@ -338,8 +333,6 @@ namespace IPS
 				comboBox1.Text = Program.INFO_LISTA_BAZ;
 			}
 		}
-		
-
 
 	}
 	

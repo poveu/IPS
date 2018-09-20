@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -33,7 +34,7 @@ namespace IPS
 		const string NICK1_NODE = "Uwagi";
 		const string NICK2_NODE = "Tytulem1";
 		
-		const int PACKAGE_NICK_COL = 1;
+		const int PACKAGE_SELECTOR_COL = 1;
 		const int PACKAGE_NUMBER_COL = 4;
 		
 		SqlConnection polaczenie;
@@ -70,7 +71,7 @@ namespace IPS
 		{
 			
 			XmlNodeList xnList = XmlDoc.SelectNodes(NODE_PATH);
-			
+
 			Invoke(new Action(() => {
 				progressBar1.Value = 0;
 				progressBar1.Maximum = xnList.Count;
@@ -88,7 +89,7 @@ namespace IPS
 						          getParsedNodeData(node, NICK1_NODE, nickFormat: true) : getParsedNodeData(node, NICK2_NODE, nickFormat: true));
 						break;
 					case 2:
-						arr[1] = getParsedNodeData(node, GUID_NODE);
+						arr[1] = XmlDoc.SelectSingleNode(NODE_PATH).Attributes["Guid"].Value;
 						break;
 				}
 				
@@ -125,15 +126,19 @@ namespace IPS
 			
 				try {
 					XmlDocument XmlDoc = new XmlDocument();
-					XmlDoc.Load(fileName);
+					
+					string tresc = File.ReadAllText(fileName);
+					tresc.Replace("UTF-16","UTF-8");
+
+					XmlDocument xmlDoc = new XmlDocument();
+					
+					XmlDoc.LoadXml(tresc);
 					listView1.Items.Clear();
 
 					loadXml(XmlDoc);
-					
-					
-                
+
 				} catch (XmlException error) {
-					MessageBox.Show("Nie udało się załadować pliku. Być może jest on uszkodzony." + "\n" + "Błąd: " + error.Message);
+					MessageBox.Show("Nie udało się załadować pliku. Być może jest on uszkodzony." + "\n" + "Błąd: " + error.Message + "\n" + error.StackTrace);
 					progressBar1.Value = 0;
 				}
                 
@@ -229,19 +234,32 @@ namespace IPS
 					}));
 				           	
 					for (int i = 0; i < lista.Items.Count; i++) {
-				           		
-						string packageNick = "";
+				        
+           				string packageSelector;
+						string packageSelectorValue = "";
 						string packageNumber = "";
+						
+						switch (en_mode) {
+							case 1:
+								packageSelector = "cs_Nick";
+								break;
+							case 2:
+								packageSelector = "pc_GUID";
+								break;
+							default:
+								packageSelector = "cs_Nick";
+								break;
+						}
 		
 						Invoke(new Action(() => {
 							progressBar1.PerformStep();              	
-							packageNick = lista.Items[i].SubItems[PACKAGE_NICK_COL].Text;
+							packageSelectorValue = lista.Items[i].SubItems[PACKAGE_SELECTOR_COL].Text;
 							packageNumber = lista.Items[i].SubItems[PACKAGE_NUMBER_COL].Text;
 						}
 								                  
 						));
 				           		
-						if ((packageNick != "") && (packageNumber != "")) {
+						if ((packageSelectorValue != "") && (packageNumber != "")) {
 
 							polaczenie.Open();
 
@@ -268,7 +286,7 @@ namespace IPS
 											WHERE
 												pc_SentStatus = 0
 												AND
-												cs_Nick = '" + packageNick + @"'
+												" + packageSelector + " = '" + packageSelectorValue + @"'
 										)
 									";
 
