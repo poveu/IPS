@@ -24,6 +24,7 @@ namespace IPS
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
+			Settings.Default.Upgrade();
 			
 			if (czyUstawieniaPuste()) {
 				ustawieniaForm = new Ustawienia();

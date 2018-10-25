@@ -110,6 +110,7 @@
 			this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.ComboBox2SelectedIndexChanged);
 			this.comboBox2.TextChanged += new System.EventHandler(this.ComboBox2TextChanged);
 			this.comboBox2.Click += new System.EventHandler(this.ComboBox2Click);
+			this.comboBox2.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ComboBox2KeyDown);
 			// 
 			// label6
 			// 

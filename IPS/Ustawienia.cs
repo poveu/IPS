@@ -10,6 +10,7 @@ using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 using IPS.en;
+using Microsoft.Win32;
 
 namespace IPS
 {
@@ -20,15 +21,16 @@ namespace IPS
 		
 		byte[] aditionalEntropy = { 9, 8, 7, 6, 5 };
 		byte[] secret = { 0, 1, 2, 3, 4, 1, 2, 3, 4 };
+		bool czyNadpisacSerwer;
 
 		public Ustawienia()
 		{
 
 			InitializeComponent();
 
-			bool czyNadpisacSerwer = wczytajUstawienia();
+			czyNadpisacSerwer = wczytajUstawienia();
 			
-			PobierzListeSerwerow(czyNadpisacSerwer);
+			PobierzListeSerwerow();
 			
 			if (string.IsNullOrEmpty(comboBox1.Text)) {
 				comboBox1.Select();
@@ -48,37 +50,61 @@ namespace IPS
 			
 		}
 		
-		void PobierzListeSerwerow(bool czyNadpisacSerwer)
+		void PobierzListeSerwerow()
 		{
 			if (czyNadpisacSerwer)
 				comboBox2.Text = Program.INFO_WCZYTYWANIE;
 			new Thread(() => {
 				try {
 					Thread.CurrentThread.IsBackground = true; 
-							
-					DataTable table = SqlDataSourceEnumerator.Instance.GetDataSources();
 					
-					if (table.Rows.Count > 0) {
-						foreach (DataRow row in table.Rows) {
-							Invoke(new Action(() => {
-								comboBox2.Items.Add(row[0] + "\\" + row[1]);
-							}));
-						}
-						
-						if (czyNadpisacSerwer) {
-							Invoke(new Action(() => {
-								comboBox2.SelectedIndex = 0;
-								walidujDaneSerwera();
-							}));
-						}
-						
-					} else {
-						Invoke(new Action(() => {
-							if (comboBox2.Text == Program.INFO_WCZYTYWANIE)
-								comboBox2.Text = Program.INFO_BRAK_SERWEROW;
-							walidujDaneSerwera();
-						}));
+					var registryViewArray = new[] { RegistryView.Registry32, RegistryView.Registry64 };
+					foreach (var registryView in registryViewArray)
+					{
+					    using (var hklm = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, registryView))
+					    using (var key = hklm.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server"))
+					    {
+					    	var instances = (key == null)? null : (string[]) key.GetValue("InstalledInstances");
+					        if (instances != null)
+					        {
+					            foreach (var element in instances)
+					            {
+					            	if (element == "MSSQLSERVER") {
+					                    Invoke(new Action(() => {
+											comboBox2.Items.Add(System.Environment.MachineName);
+										}));
+					            	}
+					            	else {
+					                    Invoke(new Action(() => {
+											comboBox2.Items.Add(System.Environment.MachineName + @"\" + element);
+										}));
+					            	}
+					            }
+					        }
+					    }
 					}
+							
+					using (DataTable table = SqlDataSourceEnumerator.Instance.GetDataSources())
+     				{
+						if (table.Rows.Count > 0) {
+							foreach (DataRow row in table.Rows) {
+								Invoke(new Action(() => {
+								    if (!comboBox2.Items.Contains(row[0] + "\\" + row[1]))
+										comboBox2.Items.Add(row[0] + "\\" + row[1]);
+								}));
+							}
+						}
+					}
+					
+					Invoke(new Action(() => {
+					if (comboBox2.Items.Count > 0) {
+					    if (czyNadpisacSerwer) {
+							comboBox2.SelectedIndex = 0;
+							walidujDaneSerwera();
+					    }
+					} else
+						comboBox2.Text = "Brak lokalnych serwerów";
+					}));
 					
 				} catch (Exception e) {
 					MessageBox.Show("Wystąpił błąd podczas wczytywania listy serwerów:\n" + e.Message);
@@ -332,6 +358,10 @@ namespace IPS
 				comboBox1.SelectedItem = 0;
 				comboBox1.Text = Program.INFO_LISTA_BAZ;
 			}
+		}
+		void ComboBox2KeyDown(object sender, KeyEventArgs e)
+		{
+			czyNadpisacSerwer = false;
 		}
 
 	}
