@@ -36,10 +36,7 @@ C:\Users\disip\Documents\GitHub\IPS\IPS\bin\Debug\Newtonsoft.Json.xml
 C:\Users\disip\Documents\GitHub\IPS\IPS\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\disip\Documents\GitHub\IPS\IPS\bin\Debug\System.Web.Http.xml
 C:\Users\disip\Documents\GitHub\IPS\IPS\bin\Debug\System.Web.Http.WebHost.xml
-C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.csprojResolveAssemblyReference.cache
-C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.Ustawienia.resources
-C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.MainForm.resources
-C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.csproj.GenerateResource.Cache
+C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.csprojAssemblyReference.cache
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Debug\IPS.exe.config
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Debug\IPS.exe
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Debug\IPS.pdb
@@ -51,5 +48,10 @@ C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Debug\System.Web.Http.WebHost.dll
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Debug\System.Net.Http.Formatting.xml
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Debug\System.Web.Http.xml
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Debug\System.Web.Http.WebHost.xml
+C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.MainForm.resources
+C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.csproj.GenerateResource.cache
+C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.csproj.CoreCompileInputs.cache
+C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.csproj.CopyComplete
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.exe
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.pdb
+C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Debug\IPS.SettingsForm.resources

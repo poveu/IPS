@@ -18,7 +18,6 @@ C:\Users\disip\Documents\GitHub\IPS\IPS\bin\Release\System.Web.Http.WebHost.dll
 C:\Users\disip\Documents\GitHub\IPS\IPS\bin\Release\System.Net.Http.Formatting.xml
 C:\Users\disip\Documents\GitHub\IPS\IPS\bin\Release\System.Web.Http.xml
 C:\Users\disip\Documents\GitHub\IPS\IPS\bin\Release\System.Web.Http.WebHost.xml
-C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Release\IPS.Ustawienia.resources
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Release\IPS.MainForm.resources
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Release\IPS.csproj.GenerateResource.Cache
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Release\IPS.exe.config
@@ -31,5 +30,8 @@ C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Release\System.Web.Http.WebHost.dll
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Release\System.Net.Http.Formatting.xml
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Release\System.Web.Http.xml
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\bin\Release\System.Web.Http.WebHost.xml
-C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Release\IPS.csprojResolveAssemblyReference.cache
 C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Release\IPS.exe
+C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Release\IPS.csprojAssemblyReference.cache
+C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Release\IPS.SettingsForm.resources
+C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Release\IPS.csproj.CoreCompileInputs.cache
+C:\Users\Pawel\Documents\GitHub\IPS\IPS\obj\Release\IPS.csproj.CopyComplete

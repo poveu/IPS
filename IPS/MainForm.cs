@@ -1,24 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Drawing;
-
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Web.Http;
 using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Linq;
 using System.Data.SqlClient;
 using IPS.en;
 
 namespace IPS
 {
-	/// <summary>
-	/// Description of MainForm.
-	/// </summary>
 	public partial class MainForm : Form
 	{
 		const string NODE_PATH = "/Nadawca/Zbior/Przesylka";
@@ -37,88 +29,90 @@ namespace IPS
 		const int PACKAGE_SELECTOR_COL = 1;
 		const int PACKAGE_NUMBER_COL = 4;
 		
-		SqlConnection polaczenie;
-		string serwer;
-		string baza;
+		SqlConnection connection;
+
+		string server;
+		string database;
 		string uid;
 		string upwd;
+
 		bool setAsSent;
-		
-		string en_user;
-		string en_password;
-		int en_mode;
+
+        string en_user1;
+        string en_password1;
+        string en_user2;
+        string en_password2;
+        int en_mode;
 		
 		public MainForm()
 		{
 			InitializeComponent();
-			wczytajUstawienia();
+            LoadSettings();
 			
-			dateTimePicker1.MaxDate = DateTime.Today;
+			dateTimePicker.MaxDate = DateTime.Today;
 		}
-		void Button2Click(object sender, EventArgs e)
+
+		void ButtonOpenFile_Click(object sender, EventArgs e)
 		{ 
-			openFileDialog1.Filter = "Plik XML|*.xml";  
-			openFileDialog1.Title = "Wskaż plik z danymi przesyłek";
+			openFileDialog.Filter = "Plik XML|*.xml";  
+			openFileDialog.Title = "Wskaż plik z danymi przesyłek";
    
-			if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK) {
-		    	 
-				importData(openFileDialog1.FileName);
-    
-			}
+			if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+				ImportData(openFileDialog.FileName);
 		}
 		
-		void loadXml(XmlDocument XmlDoc)
+		void LoadXml(XmlDocument XmlDoc)
 		{
 			
 			XmlNodeList xnList = XmlDoc.SelectNodes(NODE_PATH);
 
 			Invoke(new Action(() => {
-				progressBar1.Value = 0;
-				progressBar1.Maximum = xnList.Count;
+				progressBar.Value = 0;
+				progressBar.Maximum = xnList.Count;
 			}));
 	                
 			foreach (XmlNode node in xnList) {
 				String[] arr = new String[6];
 				ListViewItem itm;
 
-				arr[0] = getParsedNodeData(node, NAZWA_NODE);
+				arr[0] = GetParsedNodeData(node, NAZWA_NODE);
 
 				switch (en_mode) {
 					case 1:
-						arr[1] = (getParsedNodeData(node, NICK2_NODE) == "" ?
-						          getParsedNodeData(node, NICK1_NODE, nickFormat: true) : getParsedNodeData(node, NICK2_NODE, nickFormat: true));
+						arr[1] = (GetParsedNodeData(node, NICK2_NODE) == "" ?
+						          GetParsedNodeData(node, NICK1_NODE, nickFormat: true) : GetParsedNodeData(node, NICK2_NODE, nickFormat: true));
 						break;
 					case 2:
 						arr[1] = XmlDoc.SelectSingleNode(NODE_PATH).Attributes["Guid"].Value;
 						break;
 				}
 				
-				arr[2] = getParsedNodeData(node, ULICA_NODE);
-				arr[2] += getParsedNodeData(node, DOM_NODE, " ");
-				arr[2] += getParsedNodeData(node, LOKAL_NODE, "/");
-				arr[3] = getParsedNodeData(node, MIASTO_NODE);
-				arr[4] = getParsedNodeData(node, NR_PRZESYLKI_NODE);
+				arr[2] = GetParsedNodeData(node, ULICA_NODE);
+				arr[2] += GetParsedNodeData(node, DOM_NODE, " ");
+				arr[2] += GetParsedNodeData(node, LOKAL_NODE, "/");
+				arr[3] = GetParsedNodeData(node, MIASTO_NODE);
+				arr[4] = GetParsedNodeData(node, NR_PRZESYLKI_NODE);
 				arr[5] = "Przekonwertowano";
 						
 				if (arr[1] != "" && arr[4] != "") {
 					itm = new ListViewItem(arr);
 					Invoke(new Action(() => {
-						listView1.Items.Add(itm);
+						listView.Items.Add(itm);
 					}));
 				}
 				
 				Invoke(new Action(() => {				
-					progressBar1.PerformStep();
+					progressBar.PerformStep();
 				}));
 			}
 			
 			Invoke(new Action(() => {
-				listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-				listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+				listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+				listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 			}));
 		}
 		
-		void importData(string fileName)
+		void ImportData(string fileName)
 		{
 			var ext = System.IO.Path.GetExtension(fileName);
 			if (ext.Equals(".xml", StringComparison.CurrentCultureIgnoreCase) ||
@@ -133,13 +127,13 @@ namespace IPS
 					XmlDocument xmlDoc = new XmlDocument();
 					
 					XmlDoc.LoadXml(tresc);
-					listView1.Items.Clear();
+					listView.Items.Clear();
 
-					loadXml(XmlDoc);
+					LoadXml(XmlDoc);
 
 				} catch (XmlException error) {
 					MessageBox.Show("Nie udało się załadować pliku. Być może jest on uszkodzony." + "\n" + "Błąd: " + error.Message + "\n" + error.StackTrace);
-					progressBar1.Value = 0;
+					progressBar.Value = 0;
 				}
                 
 			} else {
@@ -147,16 +141,16 @@ namespace IPS
 			}
 		}
 		
-		string getParsedNodeData(XmlNode node, string selectedNode, string limiter = "", bool nickFormat = false)
+		string GetParsedNodeData(XmlNode node, string selectedNode, string limiter = "", bool nickFormat = false)
 		{
 			string value = node.SelectSingleNode(NODE_NAME + "[@" + NODE_SELECTOR + "='" + selectedNode + "']") == null ?
 				"" : limiter + node.SelectSingleNode(NODE_NAME + "[@" + NODE_SELECTOR + "='" + selectedNode + "']").InnerText.TrimEnd(',', '.', '?', ' ');
 			
-			return (nickFormat) ? convertLogin(value) : value;
+			return (nickFormat) ? ConvertLogin(value) : value;
 
 		}
 		
-		string convertLogin(string login)
+		string ConvertLogin(string login)
 		{
 			
 			if ((login != null) & (login != "")) {
@@ -178,13 +172,13 @@ namespace IPS
 			return login;
 		}
 		
-		void MainFormResizeEnd(object sender, EventArgs e)
+		void MainForm_ResizeEnd(object sender, EventArgs e)
 		{
-			listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-			listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
+			listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+			listView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 		}
 		
-		private void listView1_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
+		private void ListView_DragEnter(object sender, System.Windows.Forms.DragEventArgs e)
 		{
 			if (e.Data.GetDataPresent(DataFormats.FileDrop))
 				e.Effect = DragDropEffects.All;
@@ -192,48 +186,30 @@ namespace IPS
 				e.Effect = DragDropEffects.None;
 		}
 		
-		private void listView1_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
+		private void ListView_DragDrop(object sender, System.Windows.Forms.DragEventArgs e)
 		{
 			string[] s = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 			if (s.Length > 1)
 				MessageBox.Show("Przekazano więcej niż jeden plik. Aplikacja wczyta tylko pierwszy z nich.");
-			importData(s[0]);
+			ImportData(s[0]);
 		}
 		
-		void Button1Click(object sender, EventArgs e)
+		void ButtonSendData_Click(object sender, EventArgs e)
 		{
 			try {
 				
-				polaczenie = new SqlConnection(@"Data source=" + serwer + ";database=" + baza + ";User id=" + uid + ";Password=" + upwd + ";");
-				SqlCommand sqlComand = polaczenie.CreateCommand();
+				connection = new SqlConnection(@"Data source=" + server + ";database=" + database + ";User id=" + uid + ";Password=" + upwd + ";");
+				SqlCommand sqlComand = connection.CreateCommand();
 				
-				ListView lista = listView1;
-
-// Kod na przyszłość, jeśli dodani zostaną inni przewoźnicy:
-//
-//				string currentTab = tabControl1.TabPages[tabControl1.SelectedIndex].Text;
-//				switch (currentTab) {
-//					case Program.INPOST_NAME:
-//						lista = listView1;
-//						break;
-//					case Program.POCZTA_POLSKA_NAME:
-//						lista = listView2;
-//						break;
-//					case Program.DHL_NAME:
-//						lista = listView3;
-//						break;
-//					default:
-//						lista = listView1;
-//						break;
-//				}
+				ListView list = listView;
 				
 				new Thread(() => {
 					Invoke(new Action(() => {
-						progressBar1.Value = 0;
-						progressBar1.Maximum = lista.Items.Count;
+						progressBar.Value = 0;
+						progressBar.Maximum = list.Items.Count;
 					}));
 				           	
-					for (int i = 0; i < lista.Items.Count; i++) {
+					for (int i = 0; i < list.Items.Count; i++) {
 				        
            				string packageSelector;
 						string packageSelectorValue = "";
@@ -252,22 +228,22 @@ namespace IPS
 						}
 		
 						Invoke(new Action(() => {
-							progressBar1.PerformStep();              	
-							packageSelectorValue = lista.Items[i].SubItems[PACKAGE_SELECTOR_COL].Text;
-							packageNumber = lista.Items[i].SubItems[PACKAGE_NUMBER_COL].Text;
+							progressBar.PerformStep();              	
+							packageSelectorValue = list.Items[i].SubItems[PACKAGE_SELECTOR_COL].Text;
+							packageNumber = list.Items[i].SubItems[PACKAGE_NUMBER_COL].Text;
 						}
 								                  
 						));
 				           		
 						if ((packageSelectorValue != "") && (packageNumber != "")) {
 
-							polaczenie.Open();
+							connection.Open();
 
 							Invoke(new Action(() => {
 							
-								ListViewItem item = lista.Items[i];
+								ListViewItem item = list.Items[i];
 	
-								lista.Items[i].SubItems[5].Text = "Przesyłanie do Sello...";
+								list.Items[i].SubItems[5].Text = "Przesyłanie do Sello...";
 
 								sqlComand.CommandText = @"
 									UPDATE pc__Package
@@ -295,20 +271,20 @@ namespace IPS
 								if (res > 0) {
 									item.ForeColor = Color.DarkGreen;
 	
-									lista.Items[i].SubItems[5].Text = "Przesłano do Sello";
+									list.Items[i].SubItems[5].Text = "Przesłano do Sello";
 									item.SubItems[5].Font = new Font(item.Font,
 										item.Font.Style | FontStyle.Bold);
 								} else {
 									item.ForeColor = Color.DarkRed;
 	
-									lista.Items[i].SubItems[5].Text = "Brak w Sello lub już wysłana";
+									list.Items[i].SubItems[5].Text = "Brak w Sello lub już wysłana";
 									item.SubItems[5].Font = new Font(item.Font,
 										item.Font.Style | FontStyle.Bold);
 								}
 							
 							}));
 							
-							polaczenie.Close();
+							connection.Close();
 							
 						}				           		
 				           		
@@ -318,73 +294,84 @@ namespace IPS
 				
 			} catch (SqlException ex) {
 				MessageBox.Show("Wystąpił błąd: " + ex.Message);
-				progressBar1.Value = 0;
+				progressBar.Value = 0;
 			}
 		}
-		void MainFormFormClosed(object sender, FormClosedEventArgs e)
+		void MainForm_Form_Closed(object sender, FormClosedEventArgs e)
 		{
 			Application.Exit();
 		}
 		
-		public void wczytajUstawienia()
+		public void LoadSettings()
 		{
-			serwer = Settings.Default.sql_server;
-			baza = Settings.Default.sql_database;
+			server = Settings.Default.sql_server;
+			database = Settings.Default.sql_database;
 			uid = Settings.Default.sql_username;
 			upwd = (Settings.Default.sql_password == "") ? Settings.Default.sql_password : Settings.Default.sql_password.DecryptString();
 			setAsSent = Settings.Default.setAsSent;
-			
-			en_user = Settings.Default.enadawca_user;
-			en_password = Settings.Default.enadawca_password.DecryptString();
-			en_mode = Settings.Default.enadawca_mode;
+
+            en_user1 = Settings.Default.enadawca_user1;
+            en_password1 = Settings.Default.enadawca_password1?.DecryptString();
+            en_user2 = Settings.Default.enadawca_user2;
+            en_password2 = Settings.Default.enadawca_password2?.DecryptString();
+            en_mode = Settings.Default.enadawca_mode;
+
+            comboBoxAccounts.Items.Clear();
+            if (en_user1 != "" && en_password1 != "")
+            {
+                comboBoxAccounts.Items.Add("Pierwsze konto");
+                comboBoxAccounts.SelectedIndex = 0;
+            }
+            if (en_user2 != "" && en_password2 != "")
+                comboBoxAccounts.Items.Add("Drugie konto");
 			
 			switch (en_mode) {
 				case 1:
-					listView1.Columns[1].Text = "Nick klienta";
+					listView.Columns[1].Text = "Nick klienta";
 					break;
 				case 2:
-					listView1.Columns[1].Text = "GUID przesyłki";
+					listView.Columns[1].Text = "GUID przesyłki";
 					break;
 			}
 		}
 		
-		void MainFormVisibleChanged(object sender, EventArgs e)
+		void MainForm_VisibleChanged(object sender, EventArgs e)
 		{
 			if (this.Visible) {
-				wczytajUstawienia();
+                LoadSettings();
 			}
 		}
-		void Button3Click(object sender, EventArgs e)
+		void ButtonSettings_Click(object sender, EventArgs e)
 		{
-			if (Program.ustawieniaForm == null)
-				Program.ustawieniaForm = new Ustawienia();
-			Program.ustawieniaForm.Show();
-			Hide();
-		}
+            if (Program.settingsForm == null)
+                Program.settingsForm = new SettingsForm();
+            Program.settingsForm.ShowDialog(this);
+            LoadSettings();
+        }
 		
-		public void enGetPackages()
+		public void EnGetPackages(string user, string password)
 		{
-			if (en_user != "" & en_password != "") {
-				progressBar1.Maximum = 5;
-				progressBar1.Value = 1;
+			if (user != "" & password != "") {
+				progressBar.Maximum = 5;
+				progressBar.Value = 1;
 				
 				new Thread(() => {
 				           	
 					try {
 						ElektronicznyNadawca tEN = new en.ElektronicznyNadawca();
 						System.Net.NetworkCredential c = new System.Net.NetworkCredential();
-						c.UserName = en_user;
-						c.Password = en_password;
+						c.UserName = user;
+						c.Password = password;
 						System.Net.CredentialCache cc = new System.Net.CredentialCache();
 						cc.Add(new Uri("https://e-nadawca.poczta-polska.pl/websrv/en.wsdl"), "Basic", c);
 						tEN.Credentials = cc;
 						
-						envelopeInfoType[] envInfo = tEN.getEnvelopeList(dateTimePicker1.Value, DateTime.Today);
+						envelopeInfoType[] envInfo = tEN.getEnvelopeList(dateTimePicker.Value, DateTime.Today);
 		
 						if (envInfo != null) {
 							
 							Invoke(new Action(() => {
-								listView1.Items.Clear();
+								listView.Items.Clear();
 							}));
 						
 							foreach (envelopeInfoType singleEnv in envInfo) {
@@ -396,14 +383,17 @@ namespace IPS
 								XmlDocument XmlDoc = new XmlDocument();
 								XmlDoc.LoadXml(Xml);
 	
-								loadXml(XmlDoc);
+								LoadXml(XmlDoc);
 							}
 								
 						}
-					} catch (Exception e) {
+                        Invoke(new Action(() => {
+                            progressBar.Value = progressBar.Maximum;
+                        }));
+                    } catch (Exception e) {
 						MessageBox.Show("Wystąpił błąd podczas łączenia się z API E-Nadawcy:\n" + e.Message);
 						Invoke(new Action(() => {
-							progressBar1.Value = 0;
+							progressBar.Value = 0;
 						}));
 					}
 				}).Start();
@@ -411,15 +401,25 @@ namespace IPS
 				
 			} else {
 				MessageBox.Show("Nie podano danych dostępowych do E-Nadawcy. Podaj je w ustawieniach aplikacji.");
-				if (Program.ustawieniaForm == null)
-					Program.ustawieniaForm = new Ustawienia();
-				Program.ustawieniaForm.Show();
-				Hide();
+                if (Program.settingsForm == null)
+                    Program.settingsForm = new SettingsForm();
+                Program.settingsForm.ShowDialog(this);
+                LoadSettings();
 			}
 		}
-		void Button4Click(object sender, EventArgs e)
+
+		void ButtonGetData_Click(object sender, EventArgs e)
 		{
-			enGetPackages();
+            switch (comboBoxAccounts.SelectedIndex)
+            {
+                case 0:
+                default:
+                    EnGetPackages(en_user1, en_password1);
+                    break;
+                case 1:
+                    EnGetPackages(en_user2, en_password2);
+                    break;
+            }
 		}
 		
 	}

@@ -89,14 +89,19 @@
   <ItemGroup>
     <Compile Include="Security.cs" />
     <Compile Include="Settings.Designer.cs">
-      <DependentUpon>Settings.settings</DependentUpon>
       <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Ustawienia.cs" />
-    <Compile Include="Ustawienia.Designer.cs">
-      <DependentUpon>Ustawienia.cs</DependentUpon>
+    <Compile Include="SettingsForm.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.cs" />
+    <Compile Include="SettingsForm.Designer.cs">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
@@ -111,7 +116,10 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Settings.settings" />
+    <None Include="Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Web References\en\en.wsdl" />
     <None Include="Web References\en\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
@@ -119,10 +127,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Ustawienia.resx">
-      <DependentUpon>Ustawienia.cs</DependentUpon>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Ustawienia.Designer.cs</LastGenOutput>
+    <EmbeddedResource Include="SettingsForm.resx">
+      <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

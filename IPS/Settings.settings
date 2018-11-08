@@ -1,31 +1,44 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<SettingsFile CurrentProfile="(Default)" GeneratedClassNamespace="IPS" GeneratedClassName="Settings" xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="IPS" GeneratedClassName="Settings">
+  <Profiles />
   <Settings>
-    <Setting Name="enadawca_mode" Type="System.Int32" Scope="User" Roaming="false">
+    <Setting Name="enadawca_mode" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="enadawca_password" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="enadawca_user" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="setAsSent" Type="System.Boolean" Scope="User" Roaming="false">
+    <Setting Name="setAsSent" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="sql_database" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="upgradeRequired" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="enadawca_password1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+    </Value>
+    </Setting>
+    <Setting Name="enadawca_user1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+    </Value>
+    </Setting>
+    <Setting Name="sql_database" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+    </Value>
+    </Setting>
+    <Setting Name="sql_password" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+    </Value>
+    </Setting>
+    <Setting Name="sql_server" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+    </Value>
+    </Setting>
+    <Setting Name="sql_username" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+    </Value>
+    </Setting>
+    <Setting Name="enadawca_user2" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="sql_password" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="sql_server" Type="System.String" Scope="User" Roaming="false">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="sql_username" Type="System.String" Scope="User" Roaming="false">
+    <Setting Name="enadawca_password2" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>
