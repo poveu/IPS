@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.Sql;
 using Microsoft.Win32;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace IPS
 {
@@ -144,6 +145,8 @@ namespace IPS
 				textBoxENadawcaPass1.Text = Settings.Default.enadawca_password1?.DecryptString();
                 textBoxENadawcaEmail2.Text = Settings.Default.enadawca_user2?.Trim();
                 textBoxENadawcaPass2.Text = Settings.Default.enadawca_password2?.DecryptString();
+                textBoxDHLLogin.Text = Settings.Default.dhl_login?.Trim();
+                textBoxDHLPassword.Text = Settings.Default.dhl_password?.DecryptString();
 
                 if (Settings.Default.enadawca_mode > 0) {
 					switch (Settings.Default.enadawca_mode) {
@@ -167,15 +170,17 @@ namespace IPS
 		{
 			try {
 			
-				Settings.Default.sql_server = (comboBoxDbSrv.Text == "") ? "" : comboBoxDbSrv.Text.Trim();
-				Settings.Default.sql_username = (textBoxDbUsr.Text == "") ? "" : textBoxDbUsr.Text.Trim();
-				Settings.Default.sql_password = (textBoxDbPass.Text == "") ? "" : textBoxDbPass.Text.Trim().EncryptString();
-				Settings.Default.sql_database = (comboBoxDb.Text == "") ? "" : comboBoxDb.Text.Trim();
+				Settings.Default.sql_server = comboBoxDbSrv.Text?.Trim();
+				Settings.Default.sql_username = textBoxDbUsr.Text?.Trim();
+				Settings.Default.sql_password = textBoxDbPass.Text?.Trim()?.EncryptString();
+				Settings.Default.sql_database = comboBoxDb.Text?.Trim();
 				Settings.Default.setAsSent = checkBoxSetAsSent.Checked;
-                Settings.Default.enadawca_user1 = (textBoxENadawcaEmail1.Text == "") ? "" : textBoxENadawcaEmail1.Text.Trim();
-                Settings.Default.enadawca_password1 = (textBoxENadawcaPass1.Text == "") ? "" : textBoxENadawcaPass1.Text.Trim().EncryptString();
-                Settings.Default.enadawca_user2 = (textBoxENadawcaEmail2.Text == "") ? "" : textBoxENadawcaEmail2.Text.Trim();
-                Settings.Default.enadawca_password2 = (textBoxENadawcaPass2.Text == "") ? "" : textBoxENadawcaPass2.Text.Trim().EncryptString();
+                Settings.Default.enadawca_user1 = textBoxENadawcaEmail1.Text?.Trim();
+                Settings.Default.enadawca_password1 = textBoxENadawcaPass1.Text?.Trim()?.EncryptString();
+                Settings.Default.enadawca_user2 = textBoxENadawcaEmail2?.Text?.Trim();
+                Settings.Default.enadawca_password2 = textBoxENadawcaPass2.Text?.Trim()?.EncryptString();
+                Settings.Default.dhl_login = textBoxDHLLogin.Text?.Trim();
+                Settings.Default.dhl_password = textBoxDHLPassword.Text?.Trim()?.EncryptString();
 
                 if (radioButtonModeIntegrated.Checked) {
 					Settings.Default.enadawca_mode = 1;
@@ -190,7 +195,12 @@ namespace IPS
 				MessageBox.Show("Wystąpił błąd podczas zapisywania ustawień:\n" + e.Message);
 			}
 
-            if (!Program.dataProvided(new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, textBoxDbPass.Text, comboBoxDb.Text })) { 
+            String[] requiredFields = new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, textBoxDbPass.Text, comboBoxDb.Text };
+            String[] optionalData1 = new String[] { textBoxENadawcaEmail1.Text, textBoxENadawcaPass1.Text };
+            String[] optionalData2 = new String[] { textBoxDHLLogin.Text, textBoxDHLPassword.Text };
+            List<string[]> optionalFields = new List<string[]>{ optionalData1, optionalData2 };
+
+            if (!Program.dataProvided(requiredFields, optionalFields)) { 
                 MessageBox.Show("Pomyślnie zapisano ustawienia.\nAby uruchomić aplikację uzupełnij pozostałe pola.");
                 return false;
             }
@@ -234,11 +244,11 @@ namespace IPS
 
         async Task<DataTable> SubiektRequest(string command, bool noDatabase = false)
         {
-            String[] data = (noDatabase) ?
+            String[] requiredData = (noDatabase) ?
                 new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, textBoxDbPass.Text }
                 : new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, textBoxDbPass.Text, comboBoxDb.Text };
 
-            if (Program.dataProvided(data))
+            if (Program.dataProvided(requiredData))
             {
                 string connectionString;
 
@@ -270,11 +280,6 @@ namespace IPS
             }
             return null;
         }
-
-		bool DataProvided()
-		{
-			return ((comboBoxDbSrv.Text != "") && (comboBoxDbSrv.Text != Program.INFO_LOADING) && (comboBoxDbSrv.Text != Program.INFO_BRAK_SERWEROW) && (textBoxDbUsr.Text != ""));
-		}
 		
 		async void ValidateSQL()
 		{

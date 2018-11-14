@@ -62,6 +62,54 @@ namespace IPS {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string enadawca_user2 {
+            get {
+                return ((string)(this["enadawca_user2"]));
+            }
+            set {
+                this["enadawca_user2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string enadawca_password2 {
+            get {
+                return ((string)(this["enadawca_password2"]));
+            }
+            set {
+                this["enadawca_password2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string dhl_login {
+            get {
+                return ((string)(this["dhl_login"]));
+            }
+            set {
+                this["dhl_login"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string dhl_password {
+            get {
+                return ((string)(this["dhl_password"]));
+            }
+            set {
+                this["dhl_password"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string enadawca_password1 {
             get {
                 return ((string)(this["enadawca_password1"]));
@@ -128,30 +176,6 @@ namespace IPS {
             }
             set {
                 this["sql_username"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string enadawca_user2 {
-            get {
-                return ((string)(this["enadawca_user2"]));
-            }
-            set {
-                this["enadawca_user2"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string enadawca_password2 {
-            get {
-                return ((string)(this["enadawca_password2"]));
-            }
-            set {
-                this["enadawca_password2"] = value;
             }
         }
     }

@@ -31,12 +31,24 @@ namespace IPS
 
             mainForm = new MainForm();
 
-            if (!dataProvided(new string[] {
-                Settings.Default.sql_server,
-                Settings.Default.sql_username,
-                Settings.Default.sql_password,
-                Settings.Default.sql_database
-            }))
+            if (!dataProvided(
+                new string[] {
+                    Settings.Default.sql_server,
+                    Settings.Default.sql_username,
+                    Settings.Default.sql_password,
+                    Settings.Default.sql_database
+                },
+                new List<string[]> {
+                    new string[] {
+                        Settings.Default.enadawca_user1,
+                        Settings.Default.enadawca_password1
+                    },
+                    new string[] {
+                        Settings.Default.dhl_login,
+                        Settings.Default.dhl_password
+                    }
+                }
+            ))
             {
                 settingsForm = new SettingsForm();
                 Application.Run(settingsForm);
@@ -47,10 +59,20 @@ namespace IPS
             }
         }
 
-        public static bool dataProvided(string[] fields)
+        public static bool dataProvided(string[] requiredFields, List<string[]> optionalFields = null)
         {
-            List<string> requiredList = new List<string>(fields);
-            return (requiredList.Count(x => string.IsNullOrEmpty(x)) == 0 && !requiredList.Contains(Program.INFO_LOADING) && !requiredList.Contains(Program.INFO_DATABASE_LIST));
+            List<string> requiredList = new List<string>(requiredFields);
+            bool requiredProvided = (requiredList.Count(x => string.IsNullOrEmpty(x)) == 0 && !requiredList.Contains(Program.INFO_LOADING) && !requiredList.Contains(Program.INFO_DATABASE_LIST));
+            bool allDataProvided = requiredProvided;
+            if (optionalFields != null)
+            {
+                List<string> optionalList1 = new List<string>(optionalFields[0]);
+                List<string> optionalList2 = new List<string>(optionalFields[1]);
+                bool optionalProvided = ((optionalList1.Count(x => string.IsNullOrEmpty(x)) == 0)
+                    | (optionalList2.Count(x => string.IsNullOrEmpty(x)) == 0));
+                allDataProvided = optionalProvided && requiredProvided;
+            }
+            return allDataProvided;
         }
 
 		

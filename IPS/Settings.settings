@@ -11,6 +11,18 @@
     <Setting Name="upgradeRequired" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="enadawca_user2" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="enadawca_password2" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="dhl_login" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="dhl_password" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
     <Setting Name="enadawca_password1" Type="System.String" Scope="User">
       <Value Profile="(Default)">
     </Value>
@@ -34,12 +46,6 @@
     <Setting Name="sql_username" Type="System.String" Scope="User">
       <Value Profile="(Default)">
     </Value>
-    </Setting>
-    <Setting Name="enadawca_user2" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="enadawca_password2" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
