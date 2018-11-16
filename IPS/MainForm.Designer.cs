@@ -472,7 +472,7 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Importer Przesyłek Sello";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_Form_Closed);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResizeEnd += new System.EventHandler(this.MainForm_ResizeEnd);
             this.VisibleChanged += new System.EventHandler(this.MainForm_VisibleChanged);
             this.tabPagePocztaPolska.ResumeLayout(false);

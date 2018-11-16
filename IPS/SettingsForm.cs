@@ -33,7 +33,6 @@ namespace IPS
 
             try
             {
-
                 var registryViewArray = new[] { RegistryView.Registry32, RegistryView.Registry64 };
                 foreach (var registryView in registryViewArray)
                 {
@@ -100,9 +99,6 @@ namespace IPS
 
             if (await SaveSettings())
             {
-                if (Program.mainForm == null)
-                    Program.mainForm = new MainForm();
-                Program.mainForm.Show();
                 Hide();
             }
 
@@ -147,6 +143,16 @@ namespace IPS
 			
 			return overrideServer;
 		}
+
+        bool RequiredDataProvided()
+        {
+            String[] requiredFields = new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, textBoxDbPass.Text, comboBoxDb.Text };
+            String[] optionalData1 = new String[] { textBoxENadawcaEmail1.Text, textBoxENadawcaPass1.Text };
+            String[] optionalData2 = new String[] { textBoxDHLLogin.Text, textBoxDHLPassword.Text };
+            List<string[]> optionalFields = new List<string[]> { optionalData1, optionalData2 };
+
+            return Program.dataProvided(requiredFields, optionalFields);
+        }
 		
 		async Task<bool> SaveSettings()
 		{
@@ -182,7 +188,7 @@ namespace IPS
             String[] optionalData2 = new String[] { textBoxDHLLogin.Text, textBoxDHLPassword.Text };
             List<string[]> optionalFields = new List<string[]>{ optionalData1, optionalData2 };
 
-            if (!Program.dataProvided(requiredFields, optionalFields)) { 
+            if (!RequiredDataProvided()) { 
                 MessageBox.Show("Pomyślnie zapisano ustawienia.\nAby uruchomić aplikację uzupełnij pozostałe pola.");
                 return false;
             }
@@ -266,12 +272,10 @@ namespace IPS
 		async void ValidateSQL()
 		{
 			if ((textBoxDbUsr.Text != "") && (textBoxDbPass.Text != "") && (comboBoxDbSrv.Text != Program.INFO_LOADING) && (comboBoxDbSrv.Text != Program.INFO_BRAK_SERWEROW)) {
-				comboBoxDb.Text = Program.INFO_DATABASE_LIST;
                 await LoginToDatabase();
-            } else {
-				comboBoxDb.Text = "";
-			}
-		}
+            }
+            comboBoxDb.Text = "";
+        }
 
 		void CheckBoxSetAsSent_CheckedChanged(object sender, EventArgs e)
 		{
@@ -336,6 +340,12 @@ namespace IPS
         private void textBoxDbPass_Leave(object sender, EventArgs e)
         {
             if (((TextBox)sender).Text != "") ValidateSQL();
+        }
+
+        private void SettingsForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            if (!RequiredDataProvided())
+                Application.Exit();
         }
     }
 	

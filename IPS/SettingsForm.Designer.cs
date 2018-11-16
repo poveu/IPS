@@ -446,6 +446,7 @@
             this.Name = "SettingsForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ustawienia";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SettingsForm_FormClosed);
             this.Shown += new System.EventHandler(this.SettingsForm_Shown);
             this.groupBoxDb.ResumeLayout(false);
             this.groupBoxDb.PerformLayout();

@@ -1,6 +1,7 @@
 ﻿using IPS.DHL24WebapiService;
 using IPS.en;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
@@ -382,11 +383,6 @@ namespace IPS
             }
         }
 
-        void MainForm_Form_Closed(object sender, FormClosedEventArgs e)
-        {
-            Application.Exit();
-        }
-
         public void LoadSettings()
         {
             server = Settings.Default.sql_server;
@@ -560,6 +556,34 @@ namespace IPS
         {
             if (e.Control && e.KeyCode == Keys.C)
                 CopyNumber();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            if (!Program.dataProvided(
+                    new string[] {
+                        Settings.Default.sql_server,
+                        Settings.Default.sql_username,
+                        Settings.Default.sql_password,
+                        Settings.Default.sql_database
+                    },
+                    new List<string[]> {
+                        new string[] {
+                            Settings.Default.enadawca_user1,
+                            Settings.Default.enadawca_password1
+                        },
+                        new string[] {
+                            Settings.Default.dhl_login,
+                            Settings.Default.dhl_password
+                        }
+                    }
+                ))
+            {
+                if (Program.settingsForm == null)
+                    Program.settingsForm = new SettingsForm();
+                Program.settingsForm.ShowDialog(this);
+                LoadSettings();
+            }
         }
     }
 
