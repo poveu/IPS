@@ -87,7 +87,7 @@
             this.groupBoxDb.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.groupBoxDb.Name = "groupBoxDb";
             this.groupBoxDb.Size = new System.Drawing.Size(533, 129);
-            this.groupBoxDb.TabIndex = 8;
+            this.groupBoxDb.TabIndex = 0;
             this.groupBoxDb.TabStop = false;
             this.groupBoxDb.Text = "Dane bazy danych Sello";
             // 
@@ -99,7 +99,7 @@
             this.comboBoxDbSrv.Location = new System.Drawing.Point(123, 70);
             this.comboBoxDbSrv.Name = "comboBoxDbSrv";
             this.comboBoxDbSrv.Size = new System.Drawing.Size(404, 21);
-            this.comboBoxDbSrv.TabIndex = 3;
+            this.comboBoxDbSrv.TabIndex = 2;
             this.comboBoxDbSrv.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDbSrv_SelectedIndexChanged);
             this.comboBoxDbSrv.Leave += new System.EventHandler(this.ComboBoxDbSrv_Leave);
             // 
@@ -119,8 +119,8 @@
             this.textBoxDbPass.Name = "textBoxDbPass";
             this.textBoxDbPass.PasswordChar = '*';
             this.textBoxDbPass.Size = new System.Drawing.Size(404, 20);
-            this.textBoxDbPass.TabIndex = 2;
-            this.textBoxDbPass.TextChanged += new System.EventHandler(this.TextBoxDbPass_TextChanged);
+            this.textBoxDbPass.TabIndex = 1;
+            this.textBoxDbPass.Leave += new System.EventHandler(this.textBoxDbPass_Leave);
             // 
             // labelDb
             // 
@@ -134,12 +134,11 @@
             // 
             this.comboBoxDb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.comboBoxDb.Enabled = false;
             this.comboBoxDb.FormattingEnabled = true;
             this.comboBoxDb.Location = new System.Drawing.Point(123, 97);
             this.comboBoxDb.Name = "comboBoxDb";
             this.comboBoxDb.Size = new System.Drawing.Size(404, 21);
-            this.comboBoxDb.TabIndex = 4;
+            this.comboBoxDb.TabIndex = 3;
             this.comboBoxDb.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDb_SelectedIndexChanged);
             // 
             // labelDbSrv
@@ -165,9 +164,9 @@
             this.textBoxDbUsr.Location = new System.Drawing.Point(123, 19);
             this.textBoxDbUsr.Name = "textBoxDbUsr";
             this.textBoxDbUsr.Size = new System.Drawing.Size(404, 20);
-            this.textBoxDbUsr.TabIndex = 1;
+            this.textBoxDbUsr.TabIndex = 0;
             this.textBoxDbUsr.Text = "sa";
-            this.textBoxDbUsr.TextChanged += new System.EventHandler(this.TextBoxDbUsr_TextChanged);
+            this.textBoxDbUsr.Leave += new System.EventHandler(this.textBoxDbUsr_Leave);
             // 
             // buttonSaveSettings
             // 
@@ -176,7 +175,7 @@
             this.buttonSaveSettings.Location = new System.Drawing.Point(12, 592);
             this.buttonSaveSettings.Name = "buttonSaveSettings";
             this.buttonSaveSettings.Size = new System.Drawing.Size(533, 39);
-            this.buttonSaveSettings.TabIndex = 9;
+            this.buttonSaveSettings.TabIndex = 4;
             this.buttonSaveSettings.Text = "Zapisz ustawienia";
             this.buttonSaveSettings.UseVisualStyleBackColor = true;
             this.buttonSaveSettings.Click += new System.EventHandler(this.ButtonSaveSettings_Click);
@@ -188,7 +187,7 @@
             this.checkBoxSetAsSent.Location = new System.Drawing.Point(21, 526);
             this.checkBoxSetAsSent.Name = "checkBoxSetAsSent";
             this.checkBoxSetAsSent.Size = new System.Drawing.Size(519, 24);
-            this.checkBoxSetAsSent.TabIndex = 11;
+            this.checkBoxSetAsSent.TabIndex = 3;
             this.checkBoxSetAsSent.Text = "Przesłane paczki oznaczaj automatycznie w Sello jako \"Wysłane\"";
             this.checkBoxSetAsSent.UseVisualStyleBackColor = true;
             this.checkBoxSetAsSent.CheckedChanged += new System.EventHandler(this.CheckBoxSetAsSent_CheckedChanged);
@@ -215,7 +214,7 @@
             this.groupBoxENadawca.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.groupBoxENadawca.Name = "groupBoxENadawca";
             this.groupBoxENadawca.Size = new System.Drawing.Size(533, 276);
-            this.groupBoxENadawca.TabIndex = 14;
+            this.groupBoxENadawca.TabIndex = 1;
             this.groupBoxENadawca.TabStop = false;
             this.groupBoxENadawca.Text = "Poczta Polska (E-Nadawca)";
             // 
@@ -241,7 +240,7 @@
             this.tableLayoutPanelENadawca.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelENadawca.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelENadawca.Size = new System.Drawing.Size(527, 78);
-            this.tableLayoutPanelENadawca.TabIndex = 16;
+            this.tableLayoutPanelENadawca.TabIndex = 0;
             // 
             // textBoxENadawcaPass2
             // 
@@ -250,7 +249,7 @@
             this.textBoxENadawcaPass2.Name = "textBoxENadawcaPass2";
             this.textBoxENadawcaPass2.PasswordChar = '*';
             this.textBoxENadawcaPass2.Size = new System.Drawing.Size(199, 20);
-            this.textBoxENadawcaPass2.TabIndex = 24;
+            this.textBoxENadawcaPass2.TabIndex = 4;
             // 
             // labelENadawcaAcc2
             // 
@@ -269,7 +268,7 @@
             this.textBoxENadawcaPass1.Name = "textBoxENadawcaPass1";
             this.textBoxENadawcaPass1.PasswordChar = '*';
             this.textBoxENadawcaPass1.Size = new System.Drawing.Size(198, 20);
-            this.textBoxENadawcaPass1.TabIndex = 19;
+            this.textBoxENadawcaPass1.TabIndex = 2;
             // 
             // textBoxENadawcaEmail2
             // 
@@ -277,7 +276,7 @@
             this.textBoxENadawcaEmail2.Location = new System.Drawing.Point(325, 23);
             this.textBoxENadawcaEmail2.Name = "textBoxENadawcaEmail2";
             this.textBoxENadawcaEmail2.Size = new System.Drawing.Size(199, 20);
-            this.textBoxENadawcaEmail2.TabIndex = 23;
+            this.textBoxENadawcaEmail2.TabIndex = 3;
             // 
             // labelENadawcaPass
             // 
@@ -315,7 +314,7 @@
             this.textBoxENadawcaEmail1.Location = new System.Drawing.Point(121, 23);
             this.textBoxENadawcaEmail1.Name = "textBoxENadawcaEmail1";
             this.textBoxENadawcaEmail1.Size = new System.Drawing.Size(198, 20);
-            this.textBoxENadawcaEmail1.TabIndex = 18;
+            this.textBoxENadawcaEmail1.TabIndex = 1;
             // 
             // groupBoxMode
             // 
@@ -329,7 +328,7 @@
             this.groupBoxMode.Margin = new System.Windows.Forms.Padding(3, 6, 3, 6);
             this.groupBoxMode.Name = "groupBoxMode";
             this.groupBoxMode.Size = new System.Drawing.Size(521, 165);
-            this.groupBoxMode.TabIndex = 15;
+            this.groupBoxMode.TabIndex = 1;
             this.groupBoxMode.TabStop = false;
             this.groupBoxMode.Text = "Tryb pracy";
             // 
@@ -354,7 +353,7 @@
             this.radioButtonModeXML.Margin = new System.Windows.Forms.Padding(6, 3, 6, 3);
             this.radioButtonModeXML.Name = "radioButtonModeXML";
             this.radioButtonModeXML.Size = new System.Drawing.Size(506, 24);
-            this.radioButtonModeXML.TabIndex = 2;
+            this.radioButtonModeXML.TabIndex = 1;
             this.radioButtonModeXML.Text = "Korzystam w E-Nadawcy z importu wygenerowanego w Sello pliku XML";
             this.radioButtonModeXML.UseVisualStyleBackColor = true;
             // 
@@ -390,7 +389,7 @@
             this.groupBoxDHL.Location = new System.Drawing.Point(12, 438);
             this.groupBoxDHL.Name = "groupBoxDHL";
             this.groupBoxDHL.Size = new System.Drawing.Size(533, 82);
-            this.groupBoxDHL.TabIndex = 15;
+            this.groupBoxDHL.TabIndex = 2;
             this.groupBoxDHL.TabStop = false;
             this.groupBoxDHL.Text = "DHL";
             // 
@@ -410,7 +409,7 @@
             this.textBoxDHLPassword.Name = "textBoxDHLPassword";
             this.textBoxDHLPassword.PasswordChar = '*';
             this.textBoxDHLPassword.Size = new System.Drawing.Size(404, 20);
-            this.textBoxDHLPassword.TabIndex = 18;
+            this.textBoxDHLPassword.TabIndex = 1;
             // 
             // labelDHLLogin
             // 
@@ -427,7 +426,7 @@
             this.textBoxDHLLogin.Location = new System.Drawing.Point(123, 21);
             this.textBoxDHLLogin.Name = "textBoxDHLLogin";
             this.textBoxDHLLogin.Size = new System.Drawing.Size(404, 20);
-            this.textBoxDHLLogin.TabIndex = 11;
+            this.textBoxDHLLogin.TabIndex = 0;
             // 
             // SettingsForm
             // 

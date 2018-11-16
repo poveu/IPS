@@ -16,32 +16,14 @@ namespace IPS
 
         public SettingsForm()
 		{
-
 			InitializeComponent();
-
             LoadAsync();
-
-            if (string.IsNullOrEmpty(comboBoxDb.Text)) {
-				comboBoxDb.Select();
-			}
-			
-			if ((string.IsNullOrEmpty(comboBoxDbSrv.Text)) || (comboBoxDbSrv.Text == Program.INFO_LOADING)) {
-				comboBoxDbSrv.Select();
-			}
-			
-			if (string.IsNullOrEmpty(textBoxDbPass.Text)) {
-				textBoxDbPass.Select();
-			}
-			
-			if (string.IsNullOrEmpty(textBoxDbUsr.Text)) {
-				textBoxDbUsr.Select();
-			}
-			
 		}
 
         async void LoadAsync()
         {
             await LoadServerList();
+            ValidateSQL();
         }
 
         async Task LoadServerList()
@@ -216,11 +198,11 @@ namespace IPS
 						
 		}
 
-        async Task LoginToDatabase()
+        async Task LoginToDatabase(bool output = false)
         {
             try
             {
-                DataTable data = await SubiektRequest("SELECT name FROM master.sys.databases", true);
+                DataTable data = await SubiektRequest("SELECT name FROM master.sys.databases", true, !output);
                 comboBoxDb.Items.Clear();
 
                 if (data != null)
@@ -236,13 +218,13 @@ namespace IPS
             }
             catch (Exception e)
             {
-                MessageBox.Show("Wystąpił błąd:\n" + e.Message);
                 comboBoxDb.Text = "";
                 comboBoxDb.Items.Clear();
+                if (output) MessageBox.Show("Wystąpił błąd:\n" + e.Message);
             }
         }
 
-        async Task<DataTable> SubiektRequest(string command, bool noDatabase = false)
+        async Task<DataTable> SubiektRequest(string command, bool noDatabase = false, bool quiet = false)
         {
             String[] requiredData = (noDatabase) ?
                 new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, textBoxDbPass.Text }
@@ -272,7 +254,7 @@ namespace IPS
                         }
                         catch (SqlException sqle)
                         {
-                            MessageBox.Show("Wystąpił błąd:\n" + sqle.Message);
+                            if (!quiet) MessageBox.Show("Wystąpił błąd:\n" + sqle.Message);
                             return null;
                         }
                     }
@@ -283,23 +265,12 @@ namespace IPS
 		
 		async void ValidateSQL()
 		{
-			if ((textBoxDbUsr.Text != "") && (comboBoxDbSrv.Text != Program.INFO_LOADING) && (comboBoxDbSrv.Text != Program.INFO_BRAK_SERWEROW)) {
-				comboBoxDb.Enabled = true;
+			if ((textBoxDbUsr.Text != "") && (textBoxDbPass.Text != "") && (comboBoxDbSrv.Text != Program.INFO_LOADING) && (comboBoxDbSrv.Text != Program.INFO_BRAK_SERWEROW)) {
 				comboBoxDb.Text = Program.INFO_DATABASE_LIST;
                 await LoginToDatabase();
             } else {
-				comboBoxDb.Enabled = false;
 				comboBoxDb.Text = "";
 			}
-		}
-		
-		void TextBoxDbPass_TextChanged(object sender, EventArgs e)
-		{
-			ValidateSQL();
-		}
-		void TextBoxDbUsr_TextChanged(object sender, EventArgs e)
-		{
-			ValidateSQL();
 		}
 
 		void CheckBoxSetAsSent_CheckedChanged(object sender, EventArgs e)
@@ -349,12 +320,22 @@ namespace IPS
 
         private void ComboBoxDbSrv_Leave(object sender, EventArgs e)
         {
-            ValidateSQL();
+            if (((ComboBox)sender).Text != "") ValidateSQL();
         }
 
         private void SettingsForm_Shown(object sender, EventArgs e)
         {
             overrideServer = LoadSettings();
+        }
+
+        private void textBoxDbUsr_Leave(object sender, EventArgs e)
+        {
+            if (((TextBox)sender).Text != "") ValidateSQL();
+        }
+
+        private void textBoxDbPass_Leave(object sender, EventArgs e)
+        {
+            if (((TextBox)sender).Text != "") ValidateSQL();
         }
     }
 	
