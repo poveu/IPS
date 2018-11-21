@@ -140,6 +140,7 @@
             this.comboBoxDb.Size = new System.Drawing.Size(404, 21);
             this.comboBoxDb.TabIndex = 3;
             this.comboBoxDb.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDb_SelectedIndexChanged);
+            this.comboBoxDb.Leave += new System.EventHandler(this.comboBoxDb_Leave);
             // 
             // labelDbSrv
             // 

@@ -564,7 +564,6 @@ namespace IPS
                     new string[] {
                         Settings.Default.sql_server,
                         Settings.Default.sql_username,
-                        Settings.Default.sql_password,
                         Settings.Default.sql_database
                     },
                     new List<string[]> {

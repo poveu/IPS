@@ -146,7 +146,7 @@ namespace IPS
 
         bool RequiredDataProvided()
         {
-            String[] requiredFields = new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, textBoxDbPass.Text, comboBoxDb.Text };
+            String[] requiredFields = new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, comboBoxDb.Text };
             String[] optionalData1 = new String[] { textBoxENadawcaEmail1.Text, textBoxENadawcaPass1.Text };
             String[] optionalData2 = new String[] { textBoxDHLLogin.Text, textBoxDHLPassword.Text };
             List<string[]> optionalFields = new List<string[]> { optionalData1, optionalData2 };
@@ -182,11 +182,6 @@ namespace IPS
 			} catch (Exception e) {
 				MessageBox.Show("Wystąpił błąd podczas zapisywania ustawień:\n" + e.Message);
 			}
-
-            String[] requiredFields = new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, textBoxDbPass.Text, comboBoxDb.Text };
-            String[] optionalData1 = new String[] { textBoxENadawcaEmail1.Text, textBoxENadawcaPass1.Text };
-            String[] optionalData2 = new String[] { textBoxDHLLogin.Text, textBoxDHLPassword.Text };
-            List<string[]> optionalFields = new List<string[]>{ optionalData1, optionalData2 };
 
             if (!RequiredDataProvided()) { 
                 MessageBox.Show("Pomyślnie zapisano ustawienia.\nAby uruchomić aplikację uzupełnij pozostałe pola.");
@@ -233,8 +228,8 @@ namespace IPS
         async Task<DataTable> SubiektRequest(string command, bool noDatabase = false, bool quiet = false)
         {
             String[] requiredData = (noDatabase) ?
-                new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, textBoxDbPass.Text }
-                : new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, textBoxDbPass.Text, comboBoxDb.Text };
+                new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text }
+                : new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, comboBoxDb.Text };
 
             if (Program.dataProvided(requiredData))
             {
@@ -271,10 +266,9 @@ namespace IPS
 		
 		async void ValidateSQL()
 		{
-			if ((textBoxDbUsr.Text != "") && (textBoxDbPass.Text != "") && (comboBoxDbSrv.Text != Program.INFO_LOADING) && (comboBoxDbSrv.Text != Program.INFO_BRAK_SERWEROW)) {
+			if ((textBoxDbUsr.Text != "") && (comboBoxDbSrv.Text != Program.INFO_LOADING) && (comboBoxDbSrv.Text != Program.INFO_BRAK_SERWEROW)) {
                 await LoginToDatabase();
             }
-            comboBoxDb.Text = "";
         }
 
 		void CheckBoxSetAsSent_CheckedChanged(object sender, EventArgs e)
@@ -292,12 +286,15 @@ namespace IPS
 		async void ComboBoxDb_SelectedIndexChanged(object sender, EventArgs e)
 		{
             if (!await DatabaseCorrect())
+            {
                 MessageBox.Show("W podanej bazie nie znaleziono odpowiednich danych.\nUpewnij się, że wybrano prawidłową bazę danych (Sello).");
+                comboBoxDb.Text = "";
+            }
 		}
 
         async Task<bool> DatabaseCorrect()
         {
-            if (Program.dataProvided(new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, textBoxDbPass.Text, comboBoxDb.Text }))
+            if (Program.dataProvided(new String[] { comboBoxDbSrv.Text, textBoxDbUsr.Text, comboBoxDb.Text }))
             {
 
                 using (SqlConnection connection = new SqlConnection(@"Data source=" + comboBoxDbSrv .Text + ";database=" + comboBoxDb.Text + ";User id=" + textBoxDbUsr.Text + ";Password=" + textBoxDbPass.Text + ";"))
@@ -339,13 +336,22 @@ namespace IPS
 
         private void textBoxDbPass_Leave(object sender, EventArgs e)
         {
-            if (((TextBox)sender).Text != "") ValidateSQL();
+            ValidateSQL();
         }
 
         private void SettingsForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             if (!RequiredDataProvided())
                 Application.Exit();
+        }
+
+        private async void comboBoxDb_Leave(object sender, EventArgs e)
+        {
+            if ((comboBoxDb.Text != "") && (!await DatabaseCorrect()))
+            {
+                MessageBox.Show("W podanej bazie nie znaleziono odpowiednich danych.\nUpewnij się, że wybrano prawidłową bazę danych (Sello).");
+                comboBoxDb.Text = "";
+            }
         }
     }
 	
