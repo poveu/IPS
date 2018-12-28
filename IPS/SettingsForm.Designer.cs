@@ -120,6 +120,7 @@
             this.textBoxDbPass.PasswordChar = '*';
             this.textBoxDbPass.Size = new System.Drawing.Size(404, 20);
             this.textBoxDbPass.TabIndex = 1;
+            this.textBoxDbPass.TextChanged += new System.EventHandler(this.textBoxDbPass_TextChanged);
             this.textBoxDbPass.Leave += new System.EventHandler(this.textBoxDbPass_Leave);
             // 
             // labelDb
@@ -167,6 +168,7 @@
             this.textBoxDbUsr.Size = new System.Drawing.Size(404, 20);
             this.textBoxDbUsr.TabIndex = 0;
             this.textBoxDbUsr.Text = "sa";
+            this.textBoxDbUsr.TextChanged += new System.EventHandler(this.textBoxDbUsr_TextChanged);
             this.textBoxDbUsr.Leave += new System.EventHandler(this.textBoxDbUsr_Leave);
             // 
             // buttonSaveSettings

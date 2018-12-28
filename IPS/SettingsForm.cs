@@ -353,6 +353,16 @@ namespace IPS
                 comboBoxDb.Text = "";
             }
         }
+
+        private void textBoxDbPass_TextChanged(object sender, EventArgs e)
+        {
+            ValidateSQL();
+        }
+
+        private void textBoxDbUsr_TextChanged(object sender, EventArgs e)
+        {
+            ValidateSQL();
+        }
     }
 	
 	
